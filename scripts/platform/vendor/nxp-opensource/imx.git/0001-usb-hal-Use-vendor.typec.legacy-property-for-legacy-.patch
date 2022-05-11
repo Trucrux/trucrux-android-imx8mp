@@ -1,0 +1,42 @@
+From fb9f5ea2eeba106b44d265f7e778307ff2d65d60 Mon Sep 17 00:00:00 2001
+From: sawan roy <sawan.roy@trunexa.com>
+Date: Wed, 11 May 2022 07:46:55 +0530
+Subject: [PATCH 1/2]  usb hal: Use vendor.typec.legacy property for legacy
+ type c
+
+---
+ usb/Usb.cpp | 5 +++++
+ usb/Usb.h   | 1 +
+ 2 files changed, 6 insertions(+)
+
+diff --git a/usb/Usb.cpp b/usb/Usb.cpp
+index dba8225..af0077c 100644
+--- a/usb/Usb.cpp
++++ b/usb/Usb.cpp
+@@ -364,6 +364,11 @@ Status getCurrentRoleHelper(const std::string &portName, bool connected,
+ 
+ Status getTypeCPortNamesHelper(std::unordered_map<std::string, bool> *names) {
+   DIR *dp;
++  /* Enable Typ USB Legacy Support via vendor.typec.legacy property */
++  if (property_get_bool("vendor.typec.legacy", false)) {
++    ALOGE("Force Legacy device enabled");
++    return Status::ERROR;
++  }
+ 
+   dp = opendir("/sys/class/typec");
+   if (dp != NULL) {
+diff --git a/usb/Usb.h b/usb/Usb.h
+index b2ab4d1..67b0b06 100644
+--- a/usb/Usb.h
++++ b/usb/Usb.h
+@@ -23,6 +23,7 @@
+ #include <android/hardware/usb/1.1/IUsb.h>
+ #include <android/hardware/usb/1.1/types.h>
+ #include <android/hardware/usb/1.1/IUsbCallback.h>
++#include <cutils/properties.h>
+ #include <hidl/Status.h>
+ #include <utils/Log.h>
+ 
+-- 
+2.7.4
+

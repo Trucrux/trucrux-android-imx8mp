@@ -1,0 +1,25 @@
+From ae445863816c223248bb727c2efd566b02068ee4 Mon Sep 17 00:00:00 2001
+From: Sawan Roy <sawan.roy@trunexa.com>
+Date: Wed, 11 May 2022 07:53:38 +0530
+Subject: [PATCH 1/3] imx8m: Adjust struct dram_timing_info to match u-boot
+
+---
+ plat/imx/imx8m/include/dram.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/plat/imx/imx8m/include/dram.h b/plat/imx/imx8m/include/dram.h
+index 144316a..22edb3b 100644
+--- a/plat/imx/imx8m/include/dram.h
++++ b/plat/imx/imx8m/include/dram.h
+@@ -31,6 +31,8 @@ struct dram_cfg_param {
+ };
+ 
+ struct dram_timing_info {
++	/* ddrphy firmware offset */
++	unsigned int ddrphy_fw_offset;
+ 	/* umctl2 config */
+ 	struct dram_cfg_param *ddrc_cfg;
+ 	unsigned int ddrc_cfg_num;
+-- 
+2.7.4
+

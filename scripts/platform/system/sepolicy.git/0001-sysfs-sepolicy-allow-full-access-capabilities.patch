@@ -1,0 +1,42 @@
+From eb3aafe43f2690f21ab7a70734cef6bbe0f96958 Mon Sep 17 00:00:00 2001
+From: Sawan Roy <sawan.roy@trunexa.com>
+Date: Wed, 11 May 2022 08:10:28 +0530
+Subject: [PATCH 1/6] sysfs sepolicy: allow full access capabilities
+
+Managing GPIOs using sysfs requires full access to:
+- write
+- read
+- create folders (when exporting GPIO id)
+- remove folders (when unexporting GPIO id)
+---
+ prebuilts/api/30.0/public/domain.te | 1 -
+ public/domain.te                    | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/prebuilts/api/30.0/public/domain.te b/prebuilts/api/30.0/public/domain.te
+index e1ca737..415a51d 100644
+--- a/prebuilts/api/30.0/public/domain.te
++++ b/prebuilts/api/30.0/public/domain.te
+@@ -1349,7 +1349,6 @@ full_treble_only(`
+ # to do so should never be granted.
+ neverallow domain {
+   proc_type
+-  sysfs_type
+ }:dir { add_name create link remove_name rename reparent rmdir write };
+ 
+ # cgroupfs directories can be created, but not files within them.
+diff --git a/public/domain.te b/public/domain.te
+index e1ca737..415a51d 100644
+--- a/public/domain.te
++++ b/public/domain.te
+@@ -1349,7 +1349,6 @@ full_treble_only(`
+ # to do so should never be granted.
+ neverallow domain {
+   proc_type
+-  sysfs_type
+ }:dir { add_name create link remove_name rename reparent rmdir write };
+ 
+ # cgroupfs directories can be created, but not files within them.
+-- 
+2.7.4
+

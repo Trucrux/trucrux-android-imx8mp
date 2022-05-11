@@ -1,0 +1,37 @@
+From 89179a6c65cfe9a885a1dcc59c6f52d4ed18c55e Mon Sep 17 00:00:00 2001
+From: Sawan Roy <sawan.roy@trunexa.com>
+Date: Wed, 11 May 2022 08:50:45 +0530
+Subject: [PATCH 5/6] sepolicy: Add permissions for system_server
+
+---
+ prebuilts/api/30.0/private/coredomain.te | 1 +
+ private/coredomain.te                    | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/prebuilts/api/30.0/private/coredomain.te b/prebuilts/api/30.0/private/coredomain.te
+index 86e8009..30e21d1 100644
+--- a/prebuilts/api/30.0/private/coredomain.te
++++ b/prebuilts/api/30.0/private/coredomain.te
+@@ -110,6 +110,7 @@ full_treble_only(`
+     -init
+     -ueventd
+     -vold
++    -system_server
+   } sysfs:file no_rw_file_perms;
+ 
+   # /dev
+diff --git a/private/coredomain.te b/private/coredomain.te
+index 86e8009..30e21d1 100644
+--- a/private/coredomain.te
++++ b/private/coredomain.te
+@@ -110,6 +110,7 @@ full_treble_only(`
+     -init
+     -ueventd
+     -vold
++    -system_server
+   } sysfs:file no_rw_file_perms;
+ 
+   # /dev
+-- 
+2.7.4
+

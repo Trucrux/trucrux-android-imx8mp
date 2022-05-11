@@ -1,0 +1,96 @@
+From f77d8dad1a5cf9f61dc69a445c1e1cc547f5826b Mon Sep 17 00:00:00 2001
+From: Sawan Roy <sawan.roy@trunexa.com>
+Date: Wed, 11 May 2022 07:55:12 +0530
+Subject: [PATCH 2/3]  imx8m: Disable ATF console_imx_uart_register for
+
+---
+ plat/imx/imx8m/imx8mm/imx8mm_bl31_setup.c | 5 ++++-
+ plat/imx/imx8m/imx8mn/imx8mn_bl31_setup.c | 4 ++++
+ plat/imx/imx8m/imx8mp/imx8mp_bl31_setup.c | 4 ++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/plat/imx/imx8m/imx8mm/imx8mm_bl31_setup.c b/plat/imx/imx8m/imx8mm/imx8mm_bl31_setup.c
+index 1eeab7e..1eb0f44 100644
+--- a/plat/imx/imx8m/imx8mm/imx8mm_bl31_setup.c
++++ b/plat/imx/imx8m/imx8mm/imx8mm_bl31_setup.c
+@@ -150,7 +150,9 @@ static void bl31_tzc380_setup(void)
+ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 		u_register_t arg2, u_register_t arg3)
+ {
++#if TRUX_ENABLE_IMX_UART
+ 	static console_uart_t console;
++#endif
+ 	int i;
+ 
+ 	/* Enable CSU NS access permission */
+@@ -165,11 +167,12 @@ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 	imx_csu_init(csu_cfg);
+ 
+ 	imx8m_caam_init();
+-
++#if TRUX_ENABLE_IMX_UART
+ 	console_imx_uart_register(IMX_BOOT_UART_BASE, IMX_BOOT_UART_CLK_IN_HZ,
+ 		IMX_CONSOLE_BAUDRATE, &console);
+ 	/* This console is only used for boot stage */
+ 	console_set_scope(&console.console, CONSOLE_FLAG_BOOT);
++#endif
+ 
+ 	/*
+ 	 * tell BL3-1 where the non-secure software image is located
+diff --git a/plat/imx/imx8m/imx8mn/imx8mn_bl31_setup.c b/plat/imx/imx8m/imx8mn/imx8mn_bl31_setup.c
+index 88c576f..548d036 100644
+--- a/plat/imx/imx8m/imx8mn/imx8mn_bl31_setup.c
++++ b/plat/imx/imx8m/imx8mn/imx8mn_bl31_setup.c
+@@ -138,7 +138,9 @@ static void bl31_tzc380_setup(void)
+ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 		u_register_t arg2, u_register_t arg3)
+ {
++#if TRUX_ENABLE_IMX_UART
+ 	static console_uart_t console;
++#endif
+ 	int i;
+ 
+ 	/* Enable CSU NS access permission */
+@@ -157,10 +159,12 @@ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 
+ 	imx8m_caam_init();
+ 
++#if TRUX_ENABLE_IMX_UART
+ 	console_imx_uart_register(IMX_BOOT_UART_BASE, IMX_BOOT_UART_CLK_IN_HZ,
+ 		IMX_CONSOLE_BAUDRATE, &console);
+ 	/* This console is only used for boot stage */
+ 	console_set_scope(&console.console, CONSOLE_FLAG_BOOT);
++#endif
+ 
+ 	/*
+ 	 * tell BL3-1 where the non-secure software image is located
+diff --git a/plat/imx/imx8m/imx8mp/imx8mp_bl31_setup.c b/plat/imx/imx8m/imx8mp/imx8mp_bl31_setup.c
+index 3ef8a2f..118eb56 100644
+--- a/plat/imx/imx8m/imx8mp/imx8mp_bl31_setup.c
++++ b/plat/imx/imx8m/imx8mp/imx8mp_bl31_setup.c
+@@ -139,7 +139,9 @@ void bl31_tzc380_setup(void)
+ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 		u_register_t arg2, u_register_t arg3)
+ {
++#if TRUX_ENABLE_IMX_UART
+ 	static console_uart_t console;
++#endif
+ 	int i;
+ 
+ 	/* Enable CSU NS access permission */
+@@ -158,10 +160,12 @@ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
+ 
+ 	imx8m_caam_init();
+ 
++#if TRUX_ENABLE_IMX_UART
+ 	console_imx_uart_register(IMX_BOOT_UART_BASE, IMX_BOOT_UART_CLK_IN_HZ,
+ 		IMX_CONSOLE_BAUDRATE, &console);
+ 	/* This console is only used for boot stage */
+ 	console_set_scope(&console.console, CONSOLE_FLAG_BOOT);
++#endif
+ 
+ 	/*
+ 	 * tell BL3-1 where the non-secure software image is located
+-- 
+2.7.4
+
